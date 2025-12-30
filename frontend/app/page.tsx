@@ -37,7 +37,7 @@ export default function Home() {
         <p className="mt-4 text-gray-700 text-lg md:text-xl">
           A secure platform to manage users, roles and profiles.
           Built for <span className="font-semibold">Admins</span> &{" "}
-          <span className="font-semibold">Students</span>.
+          <span className="font-semibold">Users</span>.
         </p>
         {!user && (
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">

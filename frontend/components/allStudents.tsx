@@ -87,7 +87,7 @@ export default function AllStudentsTable() {
             <h2 className="text-xl font-semibold mb-4">All Users</h2>
 
             {loading ? (
-                <p>Loading...</p>
+                <p className="text-center">Loading...</p>
             ) : (
                 <table className="w-full border">
                     <thead className="bg-gray-100">

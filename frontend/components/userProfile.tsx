@@ -30,7 +30,7 @@ export default function Profile() {
 
   if (!user) return null;
 
-  
+
   const handleSaveProfile = async () => {
     if (!name || !email) {
       toast.error("Name and email are required");
@@ -50,7 +50,7 @@ export default function Profile() {
         }
       );
 
-    
+
       setAuth(token!, {
         ...user,
         name,
@@ -66,7 +66,7 @@ export default function Profile() {
     }
   };
 
- 
+
   const handleChangePassword = async () => {
     if (!oldPassword || !newPassword) {
       toast.error("Please fill all password fields");
@@ -151,12 +151,28 @@ export default function Profile() {
       <div className="flex flex-wrap gap-3">
         {editMode ? (
           <>
-            <Button onClick={handleSaveProfile} disabled={loading}>
-              Save
+            <Button
+              variant="default"
+              className="border border-black 
+               rounded-xl 
+               px-6
+               transition-transform 
+               duration-200 
+               hover:scale-105 hover:bg-gray-800"
+              onClick={handleSaveProfile}
+              disabled={loading}
+            >
+              {loading ? "save..." : "save"}
             </Button>
 
             <Button
               variant="outline"
+              className="border border-black 
+               rounded-xl 
+               px-6
+               transition-transform 
+               duration-200 
+               hover:scale-105 hover:bg-gray-400"
               onClick={() => {
                 setEditMode(false);
                 setName(user.name);
@@ -167,13 +183,27 @@ export default function Profile() {
             </Button>
           </>
         ) : (
-          <Button onClick={() => setEditMode(true)}>Edit Profile</Button>
+          <Button
+            variant="secondary"
+            className="
+               border border-black 
+               rounded-xl 
+               px-6
+               transition-transform 
+               duration-200 
+               hover:scale-105 hover:bg-gray-400
+               "
+            onClick={() => setEditMode(true)}
+          >
+            Edit Profile
+          </Button>
+
         )}
       </div>
 
       <hr />
 
-   
+
       <div className="space-y-3">
         <h3 className="text-lg font-semibold">Change Password</h3>
 
@@ -193,10 +223,16 @@ export default function Profile() {
 
         <Button
           variant="destructive"
+          className="border border-black 
+               rounded-xl 
+               px-6
+               transition-transform 
+               duration-200 
+               hover:scale-105 "
           onClick={handleChangePassword}
           disabled={loading}
         >
-          Change Password
+          {loading ? "Updating..." : "Change Password"}
         </Button>
       </div>
     </div>

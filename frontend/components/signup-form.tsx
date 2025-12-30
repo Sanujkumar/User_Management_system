@@ -161,7 +161,7 @@ export function SignupForm() {
 
            
             <Field className="flex flex-col gap-2 items-center">
-              <Button type="submit" disabled={isSubmitting}>
+              <Button variant="default" type="submit" disabled={isSubmitting}>
                 {isSubmitting ? "Registering..." : "Register"}
               </Button>
 

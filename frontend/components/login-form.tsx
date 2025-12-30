@@ -115,9 +115,9 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
 
 
               <Field className="flex flex-col items-center gap-2">
-                <Button type="submit" disabled={isSubmitting}>
+                <Button variant="default" type="submit" disabled={isSubmitting}>
                   {isSubmitting ? "Logging in..." : "Login"}
-                </Button>
+                </Button>    
 
                 <FieldDescription className="text-center">
                   Don&apos;t have an account?{" "}
