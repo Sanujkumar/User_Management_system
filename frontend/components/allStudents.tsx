@@ -78,7 +78,7 @@ export default function AllStudentsTable() {
                 } catch (err: any) {
                     toast.error(err.response?.data?.message || "Action failed");
                 }
-            },  
+            },
         });
     };
 
@@ -89,51 +89,50 @@ export default function AllStudentsTable() {
             {loading ? (
                 <p className="text-center">Loading...</p>
             ) : (
-                <table className="w-full border">
-                    <thead className="bg-gray-100">
-                        <tr>
-                            <th className="p-2 border">Name</th>
-                            <th className="p-2 border">Email</th>
-                            <th className="p-2 border">Role</th>
-                            <th className="p-2 border">Status</th>
-                            <th className="p-2 border">Actions</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {students.map((student) => (
-                            <tr key={student.id} className="text-center">
-                                <td className="p-2 border">{student.name}</td>
-                                <td className="p-2 border">{student.email}</td>
-                                <td className="p-2 border">{student.role}</td>
-                                <td className="p-2 border">
-                                    {student.isActive ? (
-                                        <span className="text-green-600">Active</span>
-                                    ) : (
-                                        <span className="text-red-600">Inactive</span>
-                                    )}
-                                </td>
-                                <td className="p-2 border">
-                                    <Button
-                                        size="sm"
-                                        variant={student.isActive ? "destructive" : "default"}
-                                        onClick={() => toggleStatus(student.id, student.isActive)}
-                                    >
-                                        {student.isActive ? "Deactivate" : "Activate"}
-                                    </Button>
-                                </td>
+                <div className="w-full overflow-x-auto">
+                    <table className="min-w-[700px] w-full border">
+                        <thead className="bg-gray-100">
+                            <tr>
+                                <th className="p-2 border">Name</th>
+                                <th className="p-2 border">Email</th>
+                                <th className="p-2 border">Role</th>
+                                <th className="p-2 border">Status</th>
+                                <th className="p-2 border">Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+
+                        <tbody>
+                            {students.map((student) => (
+                                <tr key={student.id} className="text-center">
+                                    <td className="p-2 border whitespace-nowrap">{student.name}</td>
+                                    <td className="p-2 border whitespace-nowrap">{student.email}</td>
+                                    <td className="p-2 border">{student.role}</td>
+                                    <td className="p-2 border">
+                                        {student.isActive ? (
+                                            <span className="text-green-600">Active</span>
+                                        ) : (
+                                            <span className="text-red-600">Inactive</span>
+                                        )}
+                                    </td>
+                                    <td className="p-2 border">
+                                        <Button
+                                            size="sm"
+                                            variant={student.isActive ? "destructive" : "default"}
+                                            onClick={() => toggleStatus(student.id, student.isActive)}
+                                        >
+                                            {student.isActive ? "Deactivate" : "Activate"}
+                                        </Button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             )}
 
-           
-            <div className="flex justify-center gap-4 mt-4">
-                <Button
-                    disabled={page === 1}
-                    onClick={() => setPage((p) => p - 1)}
-                >
+            {/* Pagination */}
+            <div className="flex flex-wrap justify-center gap-4 mt-4">
+                <Button disabled={page === 1} onClick={() => setPage((p) => p - 1)}>
                     Prev
                 </Button>
 
@@ -149,5 +148,6 @@ export default function AllStudentsTable() {
                 </Button>
             </div>
         </div>
+
     );
 }

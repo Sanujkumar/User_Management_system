@@ -11,10 +11,10 @@ describe("Admin Routes", () => {
 
 
   beforeAll(async () => {
-    // 🧹 clean db
+    //  clean db
     await prisma.user.deleteMany();
 
-    // 👑 CREATE ADMIN
+    //  CREATE ADMIN
     await prisma.user.create({
       data: {
         name: "Admin Bhai",
@@ -24,7 +24,7 @@ describe("Admin Routes", () => {
       },
     });
 
-    // 👨‍🎓 CREATE STUDENT
+    //  CREATE STUDENT
     const student = await prisma.user.create({
       data: {
         name: "Test Student",
@@ -37,7 +37,7 @@ describe("Admin Routes", () => {
 
     studentId = student.id;
 
-    // 🔐 LOGIN ADMIN
+    //  LOGIN ADMIN
     const res = await request(app)
       .post("/api/auth/login")
       .send({
@@ -51,7 +51,7 @@ describe("Admin Routes", () => {
     adminToken = res.body.token;
   });
 
-  // ✅ Unit Test 4
+  //  Unit Test 4
   it("should allow admin to get all students", async () => {
     const res = await request(app)
       .get("/api/admin/students")
@@ -61,7 +61,7 @@ describe("Admin Routes", () => {
     expect(res.body.students).toBeDefined();
   });
 
-  // ✅ Unit Test 5
+  // Unit Test 5
   it("should activate a student by admin", async () => {
     const res = await request(app)
       .patch(`/api/admin/students/${studentId}/activate`)
