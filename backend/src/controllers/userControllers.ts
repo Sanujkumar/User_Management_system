@@ -12,14 +12,15 @@ export const updateProfile = async (req: CustomRequest, res: Response) => {
     const updatedProfile = await prisma.user.update({
       where: { id: Number(req.userId) },
       data: { name, email }
+    });      
+
+    res.status(200).json({
+      success: true,
+      message: "Profile updated"
     });
 
-    res.status(201).json({
-      message: "update successfully",
-      updatedProfile
-    });
 
-  } catch(err) {
+  } catch (err) {
     res.status(500).json({
       message: "internal server err"
     })
@@ -27,7 +28,7 @@ export const updateProfile = async (req: CustomRequest, res: Response) => {
 };
 
 export const changePassword = async (req: CustomRequest, res: Response) => {
-  try{
+  try {
     const result = changePasswordShema.safeParse(req.body);
     if (!result.success) {
       return res.status(400).json({
@@ -47,8 +48,8 @@ export const changePassword = async (req: CustomRequest, res: Response) => {
     }
 
     const valid = await bcrypt.compare(oldPassword, existingUser.password);
-    if (!valid){
-       return res.status(400).json({ message: "Wrong password" });
+    if (!valid) {
+      return res.status(400).json({ message: "Wrong password" });
     }
 
     const hashed = await bcrypt.hash(newPassword, 10);
@@ -59,7 +60,7 @@ export const changePassword = async (req: CustomRequest, res: Response) => {
     });
 
     res.status(201).json({ message: "Password updated" });
-  }catch (err) {
+  } catch (err) {
     res.status(500).json({
       message: "internal server err"
     })

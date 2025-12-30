@@ -56,7 +56,7 @@
     "moduleResolution": "nodenext", // ✅ required when using module: nodenext
     "target": "ES2022",           // ✅ slightly safer than "esnext" for production use
     "lib": ["ES2022"],            // ✅ modern JS features
-    "types": ["node"],            // ✅ needed for Node globals like process, __dirname
+    "types": ["node", "jest"],            // ✅ needed for Node globals like process, __dirname
 
     /* ---------- Outputs ---------- */
     "sourceMap": true,

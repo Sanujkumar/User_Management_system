@@ -1,4 +1,4 @@
-import {Response } from "express";
+import { Response } from "express";
 import prisma from "../db";
 import bcrypt from "bcrypt";
 import Jwt from "jsonwebtoken";
@@ -7,10 +7,9 @@ import { CustomRequest } from "../middleware/auth";
 import { loginSchema, registerSchema } from "../validators/authSchema";
 import { string } from "zod";
 dotenv.config();
-  
+
 
 const JWT_SECRET = process.env.JWT_SECRET_KEY as string;
-
 
 
 export const registerUsers = async (req: CustomRequest, res: Response) => {
@@ -44,7 +43,7 @@ export const registerUsers = async (req: CustomRequest, res: Response) => {
         name,
         email,
         password: hashPassword,
-        role: role || "USER",   
+        role: role || "USER",
       },
     });
 
@@ -69,17 +68,17 @@ export const registerUsers = async (req: CustomRequest, res: Response) => {
 export const getUser = async (req: CustomRequest, res: Response) => {
   try {
     const result = loginSchema.safeParse(req.body);
-     if (!result.success) {
+    if (!result.success) {
       return res.status(400).json({
         errors: "Invalidation errors",
       });
     }
-    const {email,password} = result.data;
+    const { email, password } = result.data;
 
 
     const isUserExist = await prisma.user.findUnique({
       where: { email },
-      select: {id:true, name: true, password: true,email: true,role: true }
+      select: { id: true, name: true, password: true, email: true, role: true }
     });
 
 
@@ -109,13 +108,26 @@ export const getUser = async (req: CustomRequest, res: Response) => {
       email: isUserExist.email,
       role: isUserExist.role,
       id: isUserExist.id,
-      
+
     }
 
 
-    const token = Jwt.sign({
-      user: user
-    }, JWT_SECRET,
+    // const token = Jwt.sign({
+    //   user: user
+    // }, JWT_SECRET,
+    //   { expiresIn: "7d" }
+    // );
+
+    const token = Jwt.sign(
+      {
+        user: {
+          id: isUserExist.id,
+          email: isUserExist.email,
+          role: isUserExist.role,
+          name: isUserExist.name,
+        }
+      },
+      JWT_SECRET,
       { expiresIn: "7d" }
     );
 
@@ -136,51 +148,6 @@ export const getUser = async (req: CustomRequest, res: Response) => {
       message: "internal server err"
     });
   }
-    
+
 }
-
-export const getMe = async (req: CustomRequest, res: Response) => {
-  try {
-    const userId = req.userId;
-
-    if (!userId) {
-      return res.status(401).json({
-        message: "Unauthorized",
-      });
-    }
-
-    const user = await prisma.user.findUnique({
-      where: {
-        id: Number(userId),
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        isActive: true,
-        createdAt: true,
-      },
-    });
-
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
-      });
-    }
-
-    if (!user.isActive) {
-      return res.status(403).json({
-        message: "Account deactivated",
-      });
-    }
-
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json({
-      message: "Internal server error",
-    });
-  }
-};
-
 

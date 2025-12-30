@@ -59,7 +59,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
       toast.success("Login successful!");
 
       if (user.role=== "ADMIN") {
-        router.push("/admin");
+        router.push("/adminDashboard");
       } else {
         router.push("/user");
       }

@@ -55,7 +55,7 @@ export  const authorize = (
     if (!decoded?.user) {
       return res.status(401).json({ success: false, error: "Invalid token" });
     }
-
+  
     req.user = decoded.user;
     req.userId = decoded.user.id.toString();
     req.email = decoded.user.email;
